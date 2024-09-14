@@ -41,3 +41,10 @@ Ensuite, pour l'étape d'opimisation et d'inférence, il faudra utiliser le code
 Une fois la premère inférence réussi, on pourra utiliser le code `RF_inference.ipynb` qui permet qui contient un code optimiser pour l'inférence basé sur le précédent.
 
 ## Evitement d'obstacle
+
+Les codes utiles pour l'évitement d'obstacle se trouve dans le répertoire `Evitement obstacle`. Tout comme le suivi de trajectoire, il faut commencer par créer une base de données, pour cela, il faut utiliser le code `Data_Collection.ipynb`. 
+Une fois les données collectées, on peut entrainer le modèle à l'aide du code `Obstacle_training.ipynb`. Ensuite on peut passer à l'optimisation avec le code `live_demo_resnet18_build_trt.ipynb`. Et enfin, une fois le moteur d'inférence prêt, on peut lancer une inférence à partir du code `live_demo_resnet18_trt.ipynb`. 
+Attention, la sortie du modèle de détection d'obstacle est une probabilité comprise entre 0 et 1, il est normalement proche de 0.95 en cas de détection d'obstacle et proche de 0 s'il n'y a pas 'obstacle. Si ce n'est pas le cas, cela signifie qu la base de données n'est pas complète. Il faut collecter des images de l'obstacle sur des fonds différents pour pas que certains motifs du fond ne soit pas pris comme obstacle.
+
+## Script combiné
+
