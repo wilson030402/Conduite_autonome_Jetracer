@@ -1,18 +1,18 @@
 # Jetracer
 
-Le Jetracer est un robot conçu par Waveshare basé sur une carte NVIDIA Jetson Nano. Il permet principalement de se familiariser avec la conduite autnonome basé sur les réseaux de neurone.
+Le Jetracer est un robot conçu par Waveshare basé sur une carte NVIDIA Jetson Nano. Il permet principalement de se familiariser avec la conduite autonome basée sur les réseaux de neurones.
 
 ## Accès à l'interface du robot
 
-Il existe plusieurs méthode pour se connecter au robot et développer des algorithmes de conduites autonomes.
+Il existe plusieurs méthodes pour se connecter au robot et développer des algorithmes de conduites autonomes.
 
 ### Accès physique
 
-La première méthode est la méthode conseillée pour la phase de développement. Pour cela, il faut disposer d'un moniteur, d'une souris et d'un clavier. Brancher le clavier et la souris sur les port USB de la NVIDIA Jetson Nano. Ensuite brancher le moniteur sur le port HDMI ou le port Display port. Il est également conseillé de brancher la NVIDIA Jetson Nano a une source de tension différente des batteries durant la phase de développement.
+La première méthode est la méthode recommandée pour la phase de développement. Pour cela, il faut disposer d'un moniteur, d'une souris et d'un clavier. Branchez le clavier et la souris sur les ports USB de la NVIDIA Jetson Nano. Ensuite branchez le moniteur sur le port HDMI ou le port Display port. Il est également conseillé de brancher la NVIDIA Jetson Nano à une source de tension différente des batteries durant la phase de développement.
 
 ### Accès à distance
 
-Il est également possible d'accès à l'interface du robot à distance à partir du serveur Jupyter disponible sur la NVIDIA Jetson Nano. Pour cela, il faut que le robot et l'ordinateur à partir duquel on tente accéder au robot soient sur le même réseau local. Lorsque le robot est connecté sur un réseau, l'addresse IP du robot est alors affiché sur l'écran du robot, il faut alors recopier cette adresse IP sur un navigateur web suivi du numéro de port 8888. Par exemple, pendant le stage, l'addresse IP du Jetracer était `192.168.0.104`, on écrit donc sur un navigateur web la ligne suivante :
+Il est également possible d'accéder à l'interface du robot à distance à partir du serveur Jupyter disponible sur la NVIDIA Jetson Nano. Pour cela, il faut que le robot et l'ordinateur à partir duquel on tente accéder au robot soient sur le même réseau local. Lorsque le robot est connecté sur un réseau, l'adresse IP du robot est alors affiché sur l'écran du robot, il faut alors recopier cette adresse IP sur un navigateur web suivi du numéro de port 8888. Par exemple l'adresse IP du Jetracer utilisé était `192.168.0.104`, on écrit donc sur un navigateur web la ligne suivante :
 
 ```bash
 http://192.168.0.104:8888/
@@ -21,7 +21,7 @@ http://192.168.0.104:8888/
 
 Il se peut qu'à la première utilisation, la caméra du robot ait une teinte rougeâtre. Pour corriger ce problème, il faut appliquer un correctif téléchargeable [ici.](https://files.waveshare.com/upload/e/eb/Camera_overrides.tar.gz)
 
-Il faut ensuite lance les lignes de commandes suivantes : 
+Il faut ensuite lance les lignes de commande suivantes : 
 ```bash
 tar zxvf Camera_overrides.tar.gz 
 sudo cp camera_overrides.isp /var/nvidia/nvcam/settings/
@@ -35,20 +35,20 @@ Il est vivement conseillé de se familisariser avec le robot avant de commencer 
 
 ## Suivi de trajectoire
 
-Maintenant que vous savez utiliser le robot, on peut passer à l'algorithme de conduite autonome disponible dans le dossier `Road following`. Pour cela, il faut entraîner, optimiser puis inférérer un réseau de neurone.
+Maintenant que vous savez utiliser le robot, on peut passer à l'algorithme de conduite autonome disponible dans le dossier `Road following`. Pour cela, il faut entraîner, optimiser puis faire l'inférence du réseau de neurone.
 Pour l'entrainement, il faut utiliser le code `interactive_regression.ipynb` qui permet de collecter les données, les annoter et de lancer l'entrainement.
-Ensuite, pour l'étape d'opimisation et d'inférence, il faudra utiliser le code `road_following.ipynb`.
-Une fois la premère inférence réussi, on pourra utiliser le code `RF_inference.ipynb` qui permet qui contient un code optimiser pour l'inférence basé sur le précédent.
+Ensuite, pour l'étape d'optimisation et d'inférence, il faudra utiliser le code `road_following.ipynb`.
+Une fois la première inférence réussie, on pourra utiliser le code `RF_inference.ipynb` qui permet qui contient un code optimisé pour l'inférence basé sur le précédent.
 
 ## Evitement d'obstacle
 
-Les codes utiles pour l'évitement d'obstacle se trouve dans le répertoire `Evitement obstacle`. Tout comme le suivi de trajectoire, il faut commencer par créer une base de données, pour cela, il faut utiliser le code `Data_Collection.ipynb`. 
+Les codes utiles pour l'évitement d'obstacle se trouvent dans le répertoire `Evitement obstacle`. Tout comme le suivi de trajectoire, il faut commencer par créer une base de données, pour cela, il faut utiliser le code `Data_Collection.ipynb`. 
 Une fois les données collectées, on peut entrainer le modèle à l'aide du code `Obstacle_training.ipynb`. Ensuite on peut passer à l'optimisation avec le code `live_demo_resnet18_build_trt.ipynb`. Et enfin, une fois le moteur d'inférence prêt, on peut lancer une inférence à partir du code `live_demo_resnet18_trt.ipynb`. 
-Attention, la sortie du modèle de détection d'obstacle est une probabilité comprise entre 0 et 1, il est normalement proche de 0.95 en cas de détection d'obstacle et proche de 0 s'il n'y a pas 'obstacle. Si ce n'est pas le cas, cela signifie qu la base de données n'est pas complète. Il faut collecter des images de l'obstacle sur des fonds différents pour pas que certains motifs du fond ne soit pas pris comme obstacle.
+À noter que la sortie du modèle de détection d'obstacle est une probabilité comprise entre 0 et 1, il est normalement proche de 0.95 en cas de détection d'obstacle et proche de 0 s'il n'y a pas 'obstacle. Si ce n'est pas le cas, cela signifie que la base de données n'est pas complète. Il faut collecter des images de l'obstacle sur des fonds différents pour pas que certains motifs du fond ne soient pas pris comme obstacle.
 
 ## Script combiné
 
-Une fois les deux modèles prêts, on peut alors passer à l'étape finale. Cet algorithme va permettre de suivre une trajectoire par défault puis en cas de détection d'obstacle, il va l'éviter puis reprendre la trajectoire initiale. Le code correspondant se nomme `DEMO1.ipynb` et se trouve `Script combiné` 
+Une fois les deux modèles prêts, on peut alors passer à l'étape finale. Cet algorithme va permettre de suivre une trajectoire par défaut puis en cas de détection d'obstacle, il va l'éviter puis reprendre la trajectoire initiale. Le code correspondant se nomme `DEMO1.ipynb` et se trouve `Script combiné` 
 
 ## Réseau
 
