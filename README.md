@@ -48,3 +48,12 @@ Attention, la sortie du modèle de détection d'obstacle est une probabilité co
 
 ## Script combiné
 
+Une fois les deux modèles prêts, on peut alors passer à l'étape finale. Cet algorithme va permettre de suivre une trajectoire par défault puis en cas de détection d'obstacle, il va l'éviter puis reprendre la trajectoire initiale. Le code correspondant se nomme `DEMO1.ipynb` et se trouve `Script combiné` 
+
+## Réseau
+
+Dans le but du projet V2X, il est intéressant de rendre la conduite connecté. Pour cela, les codes nécessaires sont dans le répertoire `Réseau`. Le code permettant d'envoyer le flux de la caméra sur un serveur distant se nomme `Video_flask.ipynb`
+
+## Crédit
+
+Une grande partie des codes développés dans ce projet sont basés sur ceux de NVIDIA. C'est notamment le cas des codes `basic_motion.ipynb` `teleoperation.ipynb` `interactive_regression.ipynb` `road_following.ipynb` `Data_Collection.ipynb` `Obstacle_training.ipynb` `live_demo_resnet18_build_trt.ipynb` `live_demo_resnet18_trt.ipynb` et sont disponibles sur le [Github de NVIDIA](https://github.com/NVIDIA-AI-IOT/jetracer)
